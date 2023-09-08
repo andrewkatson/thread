@@ -1,0 +1,43 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "boost.thread",
+    hdrs = glob([
+        "include/**/*.hpp",
+        "include/**/*.h",
+    ]),
+    includes = ["include"],
+    deps = [
+        "@boost.algorithm",
+        "@boost.assert",
+        "@boost.atomic",
+        "@boost.bind",
+        "@boost.chrono",
+        "@boost.concept_check",
+        "@boost.config",
+        "@boost.container",
+        "@boost.container_hash",
+        "@boost.core",
+        "@boost.date_time",
+        "@boost.exception",
+        "@boost.function",
+        "@boost.intrusive",
+        "@boost.io",
+        "@boost.iterator",
+        "@boost.lexical_cast",
+        "@boost.move",
+        "@boost.optional",
+        "@boost.predef",
+        "@boost.preprocessor",
+        "@boost.smart_ptr",
+        "@boost.static_assert",
+        "@boost.system",
+        "@boost.throw_exception",
+        "@boost.tuple",
+        "@boost.type_traits",
+        "@boost.utility",
+        "@boost.winapi",
+    ],
+)

@@ -1,0 +1,14 @@
+module(
+    name = "boost.thread.test",
+)
+
+local_path_override(
+    module_name = "boost.thread",
+    path = ".."
+)
+
+bazel_dep(name = "boost.asio", version = "1.83.0.bzl.3")
+bazel_dep(name = "boost.interprocess", version = "1.83.0.bzl.1")
+bazel_dep(name = "boost.test", version = "1.83.0.bzl.4")
+bazel_dep(name = "boost.thread", version = "1.83.0.bzl.1")
+bazel_dep(name = "boost.variant", version = "1.83.0.bzl.1")

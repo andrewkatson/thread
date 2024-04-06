@@ -1,0 +1,20 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+cc_test(
+    name = "tests",
+    srcs = glob(
+        ["**/test*.cpp", "**/*.h", "**/*.hpp", "**/*.inl"],
+        exclude = ["test_3837.cpp", "test_11818.cpp", "test_13561.cpp", "test_8557.cpp", "test_9079_b.cpp", "test_9192.cpp", "test_9303.cpp", "test_time_jumps.cpp"]
+     ),
+    defines = select({
+        "@platforms//os:windows": ["WIN32_LEAN_AND_MEAN=1"],
+        "//conditions:default": [],
+    }),
+    deps = [
+        "@boost.asio",
+        "@boost.interprocess",
+        "@boost.test",
+        "@boost.thread",
+        "@boost.variant",
+    ],
+)

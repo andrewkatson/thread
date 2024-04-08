@@ -75,7 +75,7 @@ cc_library(
         "include/**/*.h",
     ], exclude = _POSIX_HDRS + _WINDOWS_HDRS + _COMMON_HDRS),
     includes = ["include"],
-    srcs = glob(["src/**/*.cpp"], exclude = _POSIX_SRCS + _WINDOWS_SRCS + _COMMON_SRCS + _COMMON_EXCLUDE_SRCS), 
+    srcs = glob(["src/**/*.cpp"], exclude = _POSIX_SRCS + _WINDOWS_SRCS + _COMMON_SRCS + _COMMON_EXCLUDE_SRCS),
     deps = [
         "@boost.algorithm",
         "@boost.assert",
@@ -97,7 +97,6 @@ cc_library(
         "@boost.throw_exception",
         "@boost.tuple",
         "@boost.utility",
-        "@boost.winapi",
     ] + select({
         "@platforms//os:windows": [
             ":thread_windows",

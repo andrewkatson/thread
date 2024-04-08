@@ -1,6 +1,6 @@
 {
   "lockFileVersion": 6,
-  "moduleFileHash": "1ca821f21ab957d945600ddf891940a9c077368e47666a7e23cf35f683a17347",
+  "moduleFileHash": "6dad1caed5b823a4709337a6a74b44e342a1741652ffcc597dc5562028d28290",
   "flags": {
     "cmdRegistries": [
       "https://raw.githubusercontent.com/bazelboost/registry/main",
@@ -15,7 +15,7 @@
   },
   "localOverrideHashes": {
     "bazel_tools": "1ae69322ac3823527337acf02016e8ee95813d8d356f47060255b8956fa642f0",
-    "boost.thread": "7a711818680ca54dfba5121dac9c11b5b616ef5a3d521be1c20b2d94b2bde2f7"
+    "boost.thread": "7c7fb768c672c3d6fe6d1ea6e6946a53cfe4d3e37210ecf344694848a7917831"
   },
   "moduleDepGraph": {
     "<root>": {
@@ -53,7 +53,7 @@
         "boost.array": "boost.array@1.83.0.bzl.1",
         "boost.assert": "boost.assert@1.83.0.bzl.1",
         "boost.bind": "boost.bind@1.83.0.bzl.1",
-        "boost.chrono": "boost.chrono@1.83.0.bzl.1",
+        "boost.chrono": "boost.chrono@1.83.0.bzl.2",
         "boost.config": "boost.config@1.83.0.bzl.6",
         "boost.context": "boost.context@1.83.0.bzl.1",
         "boost.core": "boost.core@1.83.0.bzl.1",
@@ -181,7 +181,7 @@
         "boost.assert": "boost.assert@1.83.0.bzl.1",
         "boost.atomic": "boost.atomic@1.83.0.bzl.1",
         "boost.bind": "boost.bind@1.83.0.bzl.1",
-        "boost.chrono": "boost.chrono@1.83.0.bzl.1",
+        "boost.chrono": "boost.chrono@1.83.0.bzl.2",
         "boost.concept_check": "boost.concept_check@1.83.0.bzl.1",
         "boost.config": "boost.config@1.83.0.bzl.6",
         "boost.container": "boost.container@1.83.0.bzl.1",
@@ -673,16 +673,17 @@
         }
       }
     },
-    "boost.chrono@1.83.0.bzl.1": {
+    "boost.chrono@1.83.0.bzl.2": {
       "name": "boost.chrono",
-      "version": "1.83.0.bzl.1",
-      "key": "boost.chrono@1.83.0.bzl.1",
+      "version": "1.83.0.bzl.2",
+      "key": "boost.chrono@1.83.0.bzl.2",
       "repoName": "boost.chrono",
       "executionPlatformsToRegister": [],
       "toolchainsToRegister": [],
       "extensionUsages": [],
       "deps": {
         "rules_cc": "rules_cc@0.0.9",
+        "platforms": "platforms@0.0.7",
         "boost.assert": "boost.assert@1.83.0.bzl.1",
         "boost.config": "boost.config@1.83.0.bzl.6",
         "boost.core": "boost.core@1.83.0.bzl.1",
@@ -706,9 +707,9 @@
         "ruleClassName": "http_archive",
         "attributes": {
           "urls": [
-            "https://github.com/bazelboost/chrono/releases/download/bazelboost-1.83.0.bzl.1/chrono-bazelboost-1.83.0.bzl.1.tar.gz"
+            "https://github.com/bazelboost/chrono/releases/download/bazelboost-1.83.0.bzl.2/chrono-bazelboost-1.83.0.bzl.2.tar.gz"
           ],
-          "integrity": "sha256-xZI9hWFJRElk6uDb8bon2i+VjX7jDaNMxWrm0qj0G7I=",
+          "integrity": "sha256-iwiYMc+9N20D+JXstI1ESnNbNR7e3YXYCpmQ0TgeDFo=",
           "strip_prefix": "",
           "remote_patches": {},
           "remote_patch_strip": 0

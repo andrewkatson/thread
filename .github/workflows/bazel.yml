@@ -5,6 +5,7 @@ on: [pull_request]
 jobs:
   test:
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
@@ -14,5 +15,3 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - run: bazelisk test ...
-      working-directory: test
-      continue-on-error: true

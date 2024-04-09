@@ -64,7 +64,15 @@ cc_library(
     srcs = glob(_WINDOWS_SRCS + _COMMON_SRCS, exclude = _COMMON_EXCLUDE_SRCS),
     includes = ["include"],
     linkopts = ["-DEFAULTLIB:shell32"],
-    deps = _COMMON_DEPS,
+    local_defines = [
+        "BOOST_THREAD_BUILD_LIB",
+    ],
+    defines = [
+        "BOOST_THREAD_WIN32",
+    ],
+    deps = _COMMON_DEPS + [
+        "@boost.atomic",
+    ],
 )
 
 

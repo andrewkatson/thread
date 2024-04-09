@@ -31,7 +31,7 @@ _TESTS = {
     "test_7755": [], 
     "test_8455": [], 
     "test_8508": [],
-    "test_8557": [], 
+    # Misses malloc.h which is deprecated "test_8557": [], 
     "test_8586": [], 
     "test_8596": [], 
     "test_8600": [], 
@@ -39,9 +39,9 @@ _TESTS = {
     "test_8943": [], 
     "test_8960": [], 
     "test_9079_a": [], 
-    "test_9079_b": [],
-    "test_9192": [],
-    "test_9303": [],
+    # Misses iostream "test_9079_b": [],
+    # Misses iostream "test_9192": ["@boost.interprocess"],
+    "test_9303": ["@boost.asio"],
     "test_9319": [], 
     "test_9711": [], 
     "test_9856": [], 
@@ -54,11 +54,11 @@ _TESTS = {
     "test_11499": [], 
     "test_11611": [], 
     "test_11796": [], 
-    "test_11818": [],
+    # Misses iostream "test_11818": [],
     "test_12293": [], 
     "test_12949": [], 
     "test_13480b": ["@boost.variant"], 
-    "test_13561": [],
+    # Misses a nonexistent file from @boost.system "test_13561": [],
     "test_barrier_size_fct": [],
     "test_barrier_void_fct": [], 
     "test_barrier": [], 
@@ -105,26 +105,8 @@ _TESTS = {
     }),
     deps = [
         "@boost.test",
+        "@boost.test//:unit_test_main",
         "@boost.thread",
     ] + _TESTS[test],
 ) for test in _TESTS]
 
-
-cc_test(
-    name = "tests",
-    srcs = glob(
-        ["**/test*.cpp", "**/*.h", "**/*.hpp", "**/*.inl"],
-        exclude = ["test_3837.cpp", "test_11818.cpp", "test_13561.cpp", "test_8557.cpp", "test_9079_b.cpp", "test_9192.cpp", "test_9303.cpp", "test_time_jumps.cpp"]
-     ),
-    defines = select({
-        "@platforms//os:windows": ["WIN32_LEAN_AND_MEAN=1", "BOOST_TEST_DYN_LINK=1"],
-        "//conditions:default": ["BOOST_TEST_DYN_LINK=1"],
-    }),
-    deps = [
-        "@boost.asio",
-        "@boost.interprocess",
-        "@boost.test",
-        "@boost.thread",
-        "@boost.variant",
-    ],
-)

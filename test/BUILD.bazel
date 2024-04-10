@@ -9,7 +9,7 @@ _TESTS = {
     "test_2501": [],
     "test_2741": [],
     "test_3628": [],
-    "test_3837": [],
+    # Uses a function that is undefined "test_3837": [],
     "test_4521": [],
     "test_4648": [],
     "test_4882": [],
@@ -41,7 +41,7 @@ _TESTS = {
     "test_9079_a": [], 
     # Misses iostream "test_9079_b": [],
     # Misses iostream "test_9192": ["@boost.interprocess"],
-    "test_9303": ["@boost.asio"],
+    # Uses boost::future which cannot compile "test_9303": ["@boost.asio"],
     "test_9319": [], 
     "test_9711": [], 
     "test_9856": [], 
@@ -91,7 +91,7 @@ _TESTS = {
     "test_thread_move": [],
     "test_thread_return_local": [],
     "test_thread": [],
-    "test_time_jumps": [],
+    # Uses boost::future which cannot compile "test_time_jumps": [],
     "test_tss": [],
     "test_xtime": []
 }

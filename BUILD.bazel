@@ -43,7 +43,8 @@ _MAC_SRCS = [
 ]
 
 _POSIX_SRCS = [
-    "src/pthread/thread.cpp"
+    "src/pthread/thread.cpp",
+    "src/pthread/once.cpp",
 ]
 
 _COMMON_SRCS = [
@@ -59,11 +60,13 @@ cc_library(
         "@platforms//os:macos": ["@platforms//:incompatible"],
         "//conditions:default": [],
     }),
-    hdrs = glob(_POSIX_HDRS + _COMMON_HDRS, exclude = ["include/boost/thread/pthread/pthread_helpers.hpp"]),
+    hdrs = glob(_POSIX_HDRS + _COMMON_HDRS),
     srcs = glob(_POSIX_SRCS + _COMMON_SRCS, exclude = _COMMON_EXCLUDE_SRCS),
     includes = ["include"],
     deps = _COMMON_DEPS,
-    defines = ["BOOST_THREAD_DONT_USE_ATOMIC"],
+    defines = [
+        "BOOST_THREAD_DONT_USE_ATOMIC",
+    ],
 )
 
 cc_library(
@@ -99,7 +102,9 @@ cc_library(
     hdrs = glob(_MAC_HDRS + _COMMON_HDRS),
     srcs = glob(_MAC_SRCS + _COMMON_SRCS, exclude = _COMMON_EXCLUDE_SRCS),
     includes = ["include"],
-    defines = ["BOOST_THREAD_DONT_USE_ATOMIC"],
+    defines = [
+        "BOOST_THREAD_DONT_USE_ATOMIC",
+    ],
     deps = _COMMON_DEPS
 )
 

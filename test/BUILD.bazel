@@ -19,7 +19,6 @@ _TESTS = {
     "test_5542_2": [],
     "test_5542_3": [],
     "test_5891": [],
-    "test_6130": [],
     "test_6170": [],
     "test_6174": [],
     "test_7160": [],
@@ -95,17 +94,16 @@ _TESTS = {
     "test_xtime": []
 }
 
-# POSIX has no tests because they all rely on pthread_helpers.hpp which doesn't build
 _POSIX_ONLY_TESTS = {
-
 } 
 
 _MAC_ONLY_TESTS = {
+    "test_6130": [],
     "test_8455": [],
 }
 
 _WINDOWS_ONLY_TESTS = {
-
+    "test_6130": [],
 }
 
 [cc_test(
@@ -116,17 +114,17 @@ _WINDOWS_ONLY_TESTS = {
         "@platforms//os:macos": [],
         "//conditions:default": [],
     }),
-    # POSIX has no tests because they all rely on pthread_helpers.hpp which doesn't build
-    target_compatible_with = select({
-        "@platforms//os:windows": [],
-        "@platforms//os:macos": [],
-        "//conditions:default": [],
-    }),
     deps = [
         "@boost.test",
         "@boost.test//:unit_test_main",
         "@boost.thread",
     ] + _TESTS[test],
+    linkstatic = select({
+        "@platforms//os:windows": False,
+        "@platforms//os:macos": False,
+        # Posix needs to link statically to get rid of undefined symbols
+        "//conditions:default": True,
+    }),
 ) for test in _TESTS]
 
 [cc_test(
@@ -147,6 +145,8 @@ _WINDOWS_ONLY_TESTS = {
         "@boost.test//:unit_test_main",
         "@boost.thread",
     ] + _POSIX_ONLY_TESTS[test],
+    # Posix needs to link statically to get rid of undefined symbols
+    linkstatic = True,
 ) for test in _POSIX_ONLY_TESTS]
 
 [cc_test(

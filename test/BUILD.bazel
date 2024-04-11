@@ -29,7 +29,7 @@ _TESTS = {
     "test_7666": [],
     "test_7720": [],
     "test_7755": [],
-    "test_8455": [],
+    # Flaky on Windows and times out "test_8455": [],
     "test_8508": [],
     # Misses malloc.h which is deprecated "test_8557": [], 
     "test_8586": [], 

@@ -7,7 +7,6 @@
 //  accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/assert.hpp>
 #include <boost/thread/detail/config.hpp>
 #include <boost/throw_exception.hpp>
 #include <pthread.h>

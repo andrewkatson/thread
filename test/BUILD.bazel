@@ -120,7 +120,8 @@ _WINDOWS_ONLY_TESTS = {
         "@boost.thread",
     ] + _TESTS[test],
     linkstatic = select({
-        "@platforms//os:windows": False,
+        # Windows needs to link statically to get rid of undefined symbols
+        "@platforms//os:windows": True,
         "@platforms//os:macos": False,
         # Posix needs to link statically to get rid of undefined symbols
         "//conditions:default": True,
@@ -187,4 +188,6 @@ _WINDOWS_ONLY_TESTS = {
         "@boost.test//:unit_test_main",
         "@boost.thread",
     ] + _WINDOWS_ONLY_TESTS[test],
+    # Windows needs to link statically to get rid of undefined symbols
+    linkstatic = True
 ) for test in _WINDOWS_ONLY_TESTS]

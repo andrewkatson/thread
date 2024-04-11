@@ -26,6 +26,10 @@ _WINDOWS_HDRS = [
 ]
 
 _POSIX_HDRS = [
+    "include/boost/thread/pthread/*.hpp"
+]
+
+_MAC_HDRS = [
     "include/boost/thread/pthread/*.hpp",
 ]
 
@@ -33,8 +37,12 @@ _WINDOWS_SRCS = [
     "src/win32/*.cpp",
 ]
 
-_POSIX_SRCS = [
+_MAC_SRCS = [
     "src/pthread/once.cpp",
+    "src/pthread/thread.cpp"
+]
+
+_POSIX_SRCS = [
     "src/pthread/thread.cpp"
 ]
 
@@ -48,9 +56,10 @@ cc_library(
     name = "thread_posix",
     target_compatible_with = select({
         "@platforms//os:windows": ["@platforms//:incompatible"],
+        "@platforms//os:macos": ["@platforms//:incompatible"],
         "//conditions:default": [],
     }),
-    hdrs = glob(_POSIX_HDRS + _COMMON_HDRS),
+    hdrs = glob(_POSIX_HDRS + _COMMON_HDRS, exclude = ["include/boost/thread/pthread/pthread_helpers.hpp"]),
     srcs = glob(_POSIX_SRCS + _COMMON_SRCS, exclude = _COMMON_EXCLUDE_SRCS),
     includes = ["include"],
     deps = _COMMON_DEPS,
@@ -59,7 +68,11 @@ cc_library(
 
 cc_library(
     name = "thread_windows",
-    target_compatible_with = ["@platforms//os:windows"],
+    target_compatible_with = select({
+        "@platforms//os:windows": [],
+        "@platforms//os:macos": ["@platforms//:incompatible"],
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),
     hdrs = glob(_WINDOWS_HDRS + _COMMON_HDRS),
     srcs = glob(_WINDOWS_SRCS + _COMMON_SRCS, exclude = _COMMON_EXCLUDE_SRCS),
     includes = ["include"],
@@ -76,15 +89,28 @@ cc_library(
     ],
 )
 
+cc_library(
+    name = "thread_mac",
+    target_compatible_with = select({
+        "@platforms//os:windows": ["@platforms//:incompatible"],
+        "@platforms//os:macos": [],
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),    
+    hdrs = glob(_MAC_HDRS + _COMMON_HDRS),
+    srcs = glob(_MAC_SRCS + _COMMON_SRCS, exclude = _COMMON_EXCLUDE_SRCS),
+    includes = ["include"],
+    linkopts = ["-DEFAULTLIB:shell32"],
+)
+
 
 cc_library(
     name = "boost.thread",
     hdrs = glob([
         "include/**/*.hpp",
         "include/**/*.h",
-    ], exclude = _POSIX_HDRS + _WINDOWS_HDRS + _COMMON_HDRS),
+    ], exclude = _POSIX_HDRS + _WINDOWS_HDRS + _MAC_HDRS + _COMMON_HDRS),
     includes = ["include"],
-    srcs = glob(["src/**/*.cpp"], exclude = _POSIX_SRCS + _WINDOWS_SRCS + _COMMON_SRCS + _COMMON_EXCLUDE_SRCS),
+    srcs = glob(["src/**/*.cpp"], exclude = _POSIX_SRCS + _WINDOWS_SRCS + _MAC_SRCS + _COMMON_SRCS + _COMMON_EXCLUDE_SRCS),
     deps = [
         "@boost.algorithm",
         "@boost.assert",
@@ -110,6 +136,9 @@ cc_library(
         "@platforms//os:windows": [
             ":thread_windows",
             "@boost.winapi",
+        ],
+        "@platforms//os:macos": [
+            ":thread_mac",
         ],
         "//conditions:default": [
             ":thread_posix",

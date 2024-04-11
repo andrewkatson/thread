@@ -29,14 +29,13 @@ _TESTS = {
     "test_7666": [],
     "test_7720": [],
     "test_7755": [],
-    # Flaky on Windows and times out "test_8455": [],
     "test_8508": [],
     # Misses malloc.h which is deprecated "test_8557": [], 
     "test_8586": [], 
     "test_8596": [], 
     "test_8600": [], 
-    "test_8674": [], 
-    "test_8943": [], 
+    "test_8674": [],
+    "test_8943": [],  
     "test_8960": [], 
     "test_9079_a": [], 
     # Misses iostream "test_9079_b": [],
@@ -96,12 +95,32 @@ _TESTS = {
     "test_xtime": []
 }
 
+# POSIX has no tests because they all rely on pthread_helpers.hpp which doesn't build
+_POSIX_ONLY_TESTS = {
+
+} 
+
+_MAC_ONLY_TESTS = {
+    "test_8455": [],
+}
+
+_WINDOWS_ONLY_TESTS = {
+
+}
+
 [cc_test(
     name = test,
     srcs = ["{}.cpp".format(test), "util.inl"] + glob(["*.hpp"]),
     defines = select({
         "@platforms//os:windows": ["WIN32_LEAN_AND_MEAN=1"],
+        "@platforms//os:macos": [],
         "//conditions:default": [],
+    }),
+    # POSIX has no tests because they all rely on pthread_helpers.hpp which doesn't build
+    target_compatible_with = select({
+        "@platforms//os:windows": [],
+        "@platforms//os:macos": [],
+        "//conditions:default": ["@platforms//:incompatible"],
     }),
     deps = [
         "@boost.test",
@@ -109,3 +128,63 @@ _TESTS = {
         "@boost.thread",
     ] + _TESTS[test],
 ) for test in _TESTS]
+
+[cc_test(
+    name = "posix_{}".format(test),
+    srcs = ["{}.cpp".format(test), "util.inl"] + glob(["*.hpp"]),
+    defines = select({
+        "@platforms//os:windows": ["WIN32_LEAN_AND_MEAN=1"],
+        "@platforms//os:macos": [],
+        "//conditions:default": [],
+    }),
+    target_compatible_with = select({
+        "@platforms//os:windows": ["@platforms//:incompatible"],
+        "@platforms//os:macos": ["@platforms//:incompatible"],
+        "//conditions:default": [],
+    }),    
+    deps = [
+        "@boost.test",
+        "@boost.test//:unit_test_main",
+        "@boost.thread",
+    ] + _POSIX_ONLY_TESTS[test],
+) for test in _POSIX_ONLY_TESTS]
+
+[cc_test(
+    name = "mac_{}".format(test),
+    srcs = ["{}.cpp".format(test), "util.inl"] + glob(["*.hpp"]),
+    defines = select({
+        "@platforms//os:windows": ["WIN32_LEAN_AND_MEAN=1"],
+        "@platforms//os:macos": [],
+        "//conditions:default": [],
+    }),
+    target_compatible_with = select({
+        "@platforms//os:windows": ["@platforms//:incompatible"],
+        "@platforms//os:macos": [],
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),    
+    deps = [
+        "@boost.test",
+        "@boost.test//:unit_test_main",
+        "@boost.thread",
+    ] + _MAC_ONLY_TESTS[test],
+) for test in _MAC_ONLY_TESTS]
+
+[cc_test(
+    name = "windows_{}".format(test),
+    srcs = ["{}.cpp".format(test), "util.inl"] + glob(["*.hpp"]),
+    defines = select({
+        "@platforms//os:windows": ["WIN32_LEAN_AND_MEAN=1"],
+        "@platforms//os:macos": [],
+        "//conditions:default": [],
+    }),
+    target_compatible_with = select({
+        "@platforms//os:windows": [],
+        "@platforms//os:macos": ["@platforms//:incompatible"],
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),    
+    deps = [
+        "@boost.test",
+        "@boost.test//:unit_test_main",
+        "@boost.thread",
+    ] + _WINDOWS_ONLY_TESTS[test],
+) for test in _WINDOWS_ONLY_TESTS]

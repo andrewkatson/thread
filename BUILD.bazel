@@ -100,6 +100,7 @@ cc_library(
     srcs = glob(_MAC_SRCS + _COMMON_SRCS, exclude = _COMMON_EXCLUDE_SRCS),
     includes = ["include"],
     defines = ["BOOST_THREAD_DONT_USE_ATOMIC"],
+    deps = _COMMON_DEPS
 )
 
 
